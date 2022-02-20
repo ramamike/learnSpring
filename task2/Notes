@@ -45,24 +45,55 @@
         ttps://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css
 12) Work with mySQL
     - https://spring.io/guides/gs/accessing-data-mysql/
-13) mySQL LAMP (Soource: https://timeweb.com/ru/community/articles/kak-ustanovit-stek-lamp-na-ubuntu-20-04)
-    -Apache install
-        sudo apt update && sudo apt install apache2
-    - firewall settings
-        sudo ufw allow OpenSSH
-            «ERROR: could find a profile matching openSSH»
-    - adding rulls for appache
-        sudo ufw allow in "Apache Full"
-    - firewall ON
-        sudo ufw enable
-            sudo ufw status
+13) mySQL (Soource: https://timeweb.com/ru/community/articles/kak-ustanovit-stek-lamp-na-ubuntu-20-04)
     - install mySQL
         sudo apt update && sudo apt install mysql-server
             sudo service mysql status
     - settings security for mySQL
         sudo mysql_secure_installation
-    - PHP installing
-        sudo apt update && sudo apt install php libapache2-mod-php php-mysql
+            sudo mysql
+14) Installing Nginx
+        https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-20-04
 
+    - sudo apt install nginx
 
+----Adjusting the Firewall
+    sudo ufw app list
+
+----It is recommended that you enable the most restrictive profile 
+    that will still allow the traffic you’ve configured. Right now, 
+    we will only need to allow traffic on port 80.
+
+    sudo ufw allow 'Nginx HTTP'
+
+----Step 4 – Managing the Nginx Process
+    Now that you have your web server up and running,
+     let’s review some basic management commands.
+
+----To stop your web server, type:
+
+    sudo systemctl stop nginx
+    
+----To start the web server when it is stopped, type:
+
+    sudo systemctl start nginx
+    
+----To stop and then start the service again, type:
+
+    sudo systemctl restart nginx
+    
+----If you are only making configuration changes, 
+    Nginx can often reload without dropping connections. To do this, type:
+
+    sudo systemctl reload nginx
+    
+----By default, Nginx is configured to start automatically 
+    when the server boots. If this is not what you want, 
+    you can disable this behavior by typing:
+
+    sudo systemctl disable nginx
+    
+----To re-enable the service to start up at boot, you can type:
+
+    sudo systemctl enable nginx
 
