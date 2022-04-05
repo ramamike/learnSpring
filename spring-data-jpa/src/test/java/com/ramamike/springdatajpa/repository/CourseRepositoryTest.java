@@ -1,6 +1,7 @@
 package com.ramamike.springdatajpa.repository;
 
 import com.ramamike.springdatajpa.entity.Course;
+import com.ramamike.springdatajpa.entity.Student;
 import com.ramamike.springdatajpa.entity.Teacher;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,5 +94,28 @@ class CourseRepositoryTest {
 
         System.out.println("courses = " + courses);
     }
-    
+
+    @Test
+    public void saveCourseWithStudentAndTeacher(){
+        Teacher teacher = Teacher.builder()
+                .firstName("Sasha")
+                .lastName("Strach")
+                .build();
+
+        Student student = Student.builder()
+                .firstName("Miha")
+                .lastName("Ra")
+                .emailId("@gmail")
+                .build();
+
+        Course course= Course.builder()
+                .title("Java")
+                .credit(22)
+                .teacher(teacher)
+                .build();
+
+        course.addStudents(student);
+
+        courseRepository.save(course);
+    }
 }
