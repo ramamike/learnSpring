@@ -16,22 +16,22 @@ class CourseMaterialRepositoryTest {
     @Autowired
     private CourseMaterialRepository courseMaterialRepository;
 
-    @Test
-    public void saveCourseMaterial(){
-
-        Course course= Course.builder()
-                .title("Math")
-                .credit(6)
-                .build();
-
-        CourseMaterial courseMaterial =
-                CourseMaterial.builder()
-                        .url("www.google.com")
-                        .course(course)
-                        .build();
-
-        courseMaterialRepository.save(courseMaterial);
-    }
+//    @Test
+//    public void saveCourseMaterial(){
+//
+//        Course course= Course.builder()
+//                .title("Math")
+//                .credit(6)
+//                .build();
+//
+//        CourseMaterial courseMaterial =
+//                CourseMaterial.builder()
+//                        .url("www.google.com")
+//                        .course(course)
+//                        .build();
+//
+//        courseMaterialRepository.save(courseMaterial);
+//    }
 
     @Test
     public void printAllCourseMaterials(){
@@ -39,4 +39,22 @@ class CourseMaterialRepositoryTest {
                 courseMaterialRepository.findAll();
         System.out.println("courseMaterials = " + courseMaterials);
     }
+
+    @Test
+    public void saveCourseMaterial(){
+
+        Course course= Course.builder()
+                .title(".com")
+                .credit(6)
+                .build();
+
+        CourseMaterial courseMaterial =
+                CourseMaterial.builder()
+                        .url("www.tut.com")
+                        .course(course)
+                        .build();
+
+        courseMaterialRepository.save(courseMaterial);
+    }
+
 }
