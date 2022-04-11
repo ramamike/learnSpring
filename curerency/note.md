@@ -19,5 +19,7 @@ Flow
    +  home.html
 5) application.properties 
    + server.port = 8081
-6)************
-6) In main create Document
+6) service package
+   + CurrencyParsing class with @Service
+      + public Document getPage()
+      + 
