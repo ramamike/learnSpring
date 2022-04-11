@@ -19,3 +19,4 @@ Flow
    +  home.html
 5) application.properties 
    + server.port = 8081
+6) 
