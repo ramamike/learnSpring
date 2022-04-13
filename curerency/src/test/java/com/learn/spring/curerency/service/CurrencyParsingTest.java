@@ -77,10 +77,25 @@ class CurrencyParsingTest {
             for (String entry: currency
                  ) {
                 System.out.print(entry + "\t\t");
-            }
+                }
             System.out.println();
         }
 
-        }
+    }
+
+    @Test
+    public void testGetCurrencies() throws IOException {
+        List<List<String>> currencies = currencyParsing.getCurrencies();
+        for (List<String> currency: currencies
+            ) {
+                for (String entry: currency
+                ) {
+                    System.out.print(entry + "\t\t");
+                }
+                System.out.println();
+            }
+
+    }
+
 
 }
