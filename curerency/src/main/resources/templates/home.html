@@ -18,29 +18,49 @@
     </style>
 </head>
 <body>
-<header>Currency exchange</header>
-<div class="layer1">
-    <div class="layer2">
-        <p>Currency is hear</p>
+    <header>Currency exchange</header>
+    <div class="layer1">
+        <div class="layer2">
+            <p class="container mt-5">Currency parsing is hear</p>
 
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>currency</th>
-                <th>purchase</th>
-                <th>sail</th>
-            </tr>
-            </thead>
-            <tbody th:each="currencyRow : ${currencies}">
-            <tr>
-                <div th:each="currencyEntry : ${currencyRow}">
-                    <td th:text="${currencyEntry}"/>
-                </div>
-            </tr>
-            </tbody>
-        </table>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>currency</th>
+                    <th>purchase</th>
+                    <th>sail</th>
+                </tr>
+                </thead>
+                <tbody th:each="currencyRow : ${currencies}">
+                <tr>
+                    <div th:each="currencyEntry : ${currencyRow}">
+                        <td th:text="${currencyEntry}"/>
+                    </div>
+                </tr>
+                </tbody>
+            </table>
+
+            <p class="container mt-5">Currency from API is hear</pi>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>currency</th>
+                    <th>purchase</th>
+                    <th>sail</th>
+                </tr>
+                </thead>
+                <tbody >
+                <tr>
+                    <div>
+                        <td>Test</td>
+                    </div>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
     </div>
-</div>
 </body>
 
 </html>

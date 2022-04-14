@@ -4,7 +4,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
@@ -15,8 +14,7 @@ import java.util.List;
 @SpringBootTest
 class CurrencyParsingTest {
 
-    @Autowired
-    private CurrencyParsing currencyParsing;
+    private CurrencyParsing currencyParsing= new CurrencyParsing();
 
     @Test
     public void testCurrencyParsing() throws IOException {
