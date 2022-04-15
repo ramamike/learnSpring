@@ -18,16 +18,19 @@ public class MainController {
     }
 
     private CurrencyParsing currencyParsing;
-    private long counterOfUpdating =0L;
 
 
     @GetMapping("/")
     public String home(Model model) {
-        List<List<String>> currencies = currencyParsing.getCurrencies();
         model.addAttribute("title", "Главная страница");
-        model.addAttribute("currencies", currencies);
-        model.addAttribute("currentTime", counterOfUpdating++);
         return "home";
+    }
+
+    @GetMapping("/currencies")
+    public String currencies(Model model) {
+        List<List<String>> currencies = currencyParsing.getStoredCurrencies();
+        model.addAttribute("currencies", currencies);
+        return "currencies";
     }
 
 }

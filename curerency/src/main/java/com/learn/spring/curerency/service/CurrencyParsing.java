@@ -20,12 +20,13 @@ public class CurrencyParsing {
     //private final String urlCurrency="http://www.cbr.ruu/";
     private final String urlCurrency="https://belarusbank.by/be";
 
+    private List<List<String>> storedCurrencies;
+
     public Document getPage() throws IOException{
         Document page=Jsoup.parse(new URL(urlCurrency), 5000);
         return page;
     }
 
-    @Scheduled(fixedRate = 5000)
     public List<List<String>> getCurrencies(){
 
         Document page= null;
@@ -61,5 +62,15 @@ public class CurrencyParsing {
             currencies.add(currencyTableEntries);
         }
         return currencies;
+    }
+
+    @Scheduled(fixedRate = 5000)
+    private void setStoredCurrencies() {
+        this.storedCurrencies=getCurrencies();
+        //System.out.println("currencies are stored");
+    }
+
+    public List<List<String>> getStoredCurrencies() {
+        return storedCurrencies;
     }
 }
