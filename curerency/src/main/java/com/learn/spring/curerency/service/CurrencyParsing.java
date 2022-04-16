@@ -1,5 +1,6 @@
 package com.learn.spring.curerency.service;
 
+import org.apache.catalina.Manager;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,61 +14,57 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 @EnableScheduling
 public class CurrencyParsing {
 
-    //private final String urlCurrency="http://www.cbr.ruu/";
+    private static final Logger logger= LoggerFactory.getLogger(Manager.class);
+
+//    private final String urlCurrency="http://www.cbr.ru/";
     private final String urlCurrency="https://belarusbank.by/be";
 
-    private List<List<String>> storedCurrencies;
+    private volatile List<List<String>> storedCurrencies;
 
-    public Document getPage() throws IOException{
-        Document page=Jsoup.parse(new URL(urlCurrency), 5000);
-        return page;
-    }
 
-    public List<List<String>> getCurrencies(){
+    @Scheduled(fixedRate = 5000)
+    private void setStoredCurrencies() {
 
-        Document page= null;
+        Document page = null;
         try {
             page = Jsoup.parse(new URL(urlCurrency), 5000);
         } catch (IOException e) {
-            System.out.println(e.getMessage() + " is not available");
-            return null;
+            logger.warn("Problem with https://belarusbank.by/be ", e);
         }
 
         if(page==null) {
-            return null;
+            logger.info("Document page is null, parsing is not done for URL");
+            return;
         }
-
-        Element currencyTable=page.select("table[class=currency-table currency-table--row-sm]")
-                .first();
+        Element currencyTable = page.select("table[class=currency-table currency-table--row-sm]")
+                    .first();
 
         if(currencyTable==null) {
-            return null;
+            logger.info("HTML parsed doesn't consist the requested cssQuery");
+            return;
         }
+        Elements currencyRows = currencyTable.select("tr");
 
-        Elements currencyRows=currencyTable.select("tr");
         List<List<String>> currencies= new ArrayList<>();
 
-        for (Element elementRow: currencyRows
-        ) {
+        for (Element elementRow: currencyRows) {
             List<String> currencyTableEntries = new ArrayList<>();
             Elements currencyEntry = elementRow.select("td");
-            for (Element elementEntry: currencyEntry
-            ) {
+            for (Element elementEntry: currencyEntry) {
                 currencyTableEntries.add(elementEntry.text());
             }
             currencies.add(currencyTableEntries);
         }
-        return currencies;
-    }
 
-    @Scheduled(fixedRate = 5000)
-    private void setStoredCurrencies() {
-        this.storedCurrencies=getCurrencies();
-        //System.out.println("currencies are stored");
+        this.storedCurrencies=currencies;
+//        System.out.println("currencies are stored");
     }
 
     public List<List<String>> getStoredCurrencies() {
