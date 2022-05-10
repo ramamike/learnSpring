@@ -24,7 +24,10 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                     .password(passwordEncoder().encode("password1")).roles()
                 .and()
                 .withUser("user2")
-                .password(passwordEncoder().encode("password2")).roles();
+                    .password(passwordEncoder().encode("password2")).roles("CLIENT")
+                .and()
+                .withUser("user3")
+                    .password(passwordEncoder().encode("password3")).roles("ADMIN", "CLIENT");
     }
 
     @Override
@@ -34,6 +37,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/authenticated").authenticated()
+                .antMatchers("/client").hasRole("CLIENT")
+                .antMatchers("/admin").hasRole("ADMIN")
                 .anyRequest().permitAll()
                 .and().logout().logoutSuccessUrl("/")
                 .and().formLogin();
