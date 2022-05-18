@@ -1,6 +1,7 @@
 package com.learn.SpringSecurity.rest;
 
 import com.learn.SpringSecurity.model.Devoloper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,18 +24,21 @@ public class DeveloperRestControllerV1 {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('developers:read')")
     public Devoloper getById(@PathVariable("id") Long id){
         return developers.stream().filter(devoloper -> devoloper.getId().equals(id))
                 .findFirst().orElse(null);
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('developers:write')")
     public Devoloper create(@RequestBody Devoloper developer){
         this.developers.add(developer);
         return developer;
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('developers:write')")
     public void deleteById(@PathVariable Long id){
         this.developers.removeIf(devoloper -> devoloper.getId().equals(id));
     }
