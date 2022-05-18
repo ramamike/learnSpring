@@ -1,8 +1,10 @@
 package com.learn.SpringSecurity.config;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import com.learn.SpringSecurity.model.Permission;
+import com.learn.SpringSecurity.model.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -18,7 +20,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
+        http
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/**")
+                    .hasAnyAuthority(Permission.DEVELOPERS_READ.getPermission())
+                .antMatchers(HttpMethod.POST, "/api/**")
+                    .hasAnyAuthority(Permission.DEVELOPERS_WRITE.getPermission())
+                .antMatchers(HttpMethod.DELETE, "/api/**")
+                    .hasAnyAuthority(Permission.DEVELOPERS_WRITE.getPermission())
+                .anyRequest()
+                .authenticated()
+                .and()
+                .httpBasic()
+        ;
     }
 
     @Bean
@@ -28,13 +44,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 User.builder()
                         .username("admin")
                         .password(passwordEncoder().encode("admin"))
-                        .roles("ADMIN")
+                        .authorities(Role.ADMIN.getAuthoritues())
+                        .build(),
+                User.builder()
+                        .username("user")
+                        .password(passwordEncoder().encode("user"))
+                        .authorities(Role.USER.getAuthoritues())
                         .build()
         );
     }
 
     @Bean
-    protected PasswordEncoder passwordEncoder(){
+    protected PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(12);
     }
 }
