@@ -1,0 +1,1 @@
+insert into users(name) values ('user_start')
